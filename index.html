@@ -1155,6 +1155,10 @@ body { margin: 0; }
   .play .demo-brand small { display: block; }
   .play .phone { height: calc(100dvh - 54px); min-height: 420px; }
 }
+.play-full-link { text-decoration: none; }
+@media (max-width: 560px) {
+  .play-full-link { padding: 8px 10px; font-size: 12px; }
+}
 </style>
 </head>
 <body>
@@ -6172,12 +6176,14 @@ void main() {
       <li>街を歩くと、<b>住人が自分から話します</b>。ほかの来場者（架空）も動物のアバターで歩いています。</li>
       <li>広場の<b>たこちゃん・ぐらむくん・ひじおくん</b>に話しかけてみよう。</li>
     </ol>
+    <p class="demo-small">会場モニター・展示ブースの画面・運営コンソールも見たいときは、<a href="full/">すべての画面の体験デモ</a>へ。</p>
     <p class="demo-small">これは体験版です。記録はこのブラウザの中だけに保存され、だれにも送られません。</p>
     <button type="button" class="demo-btn quiet2" onClick=${()=>s(!0)}><${Q} name="refresh" />はじめから</button>`;return L`<div class="demo play">
     <header class="demo-bar">
       <div class="demo-brand"><img src=${ti("img/chara/neko-happy.webp")} alt="" /><span>クラフトネッタウン<small>あそべるデモ</small></span></div>
       <div class="demo-tools">
         <button type="button" class="demo-btn play-guide-btn" onClick=${()=>n(!0)}><${Q} name="info" />あそびかた</button>
+        <a class="demo-btn quiet play-full-link" href="full/"><${Q} name="monitor" />すべての画面</a>
       </div>
     </header>
     <main class="demo-main">
