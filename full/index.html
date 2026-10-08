@@ -1086,8 +1086,13 @@ html.game-page #root { position: fixed; inset: 0; }
 
 .mon-side {
   grid-row: 1; grid-column: 2; background: rgba(255, 255, 255, .88); backdrop-filter: blur(6px); border-left: 1px solid var(--line);
-  display: grid; grid-template-rows: auto 1fr auto auto; gap: .9em; padding: 1.2em 1.3em; min-height: 0;
+  display: grid; grid-template-rows: auto auto minmax(0, 1fr) auto auto; gap: .9em; padding: 1.2em 1.3em; min-height: 0; overflow: hidden;
 }
+/* 「いま街で起きていること」は残りの高さにおさめ、参加用 QR はいつも見える位置（下）に固定する */
+.mon-feed-sec { min-height: 0; overflow: hidden; display: grid; grid-template-rows: auto minmax(0, 1fr); }
+.mon-feed-sec h2 { margin-bottom: .4em; }
+.mon-feed-sec .mon-feed { -webkit-mask-image: linear-gradient(#000 78%, transparent 100%); mask-image: linear-gradient(#000 78%, transparent 100%); }
+
 .mon-side h2 { font-family: "M PLUS Rounded 1c", "Zen Maru Gothic", sans-serif; font-size: 1.15em; font-weight: 800; margin: 0 0 .5em; display: flex; align-items: center; gap: .4em; }
 .mon-feed { display: grid; gap: .55em; align-content: start; overflow: hidden; }
 .mon-feed .it { display: grid; grid-template-columns: 2.2em 1fr auto; gap: .6em; align-items: center; font-size: .92em; animation: monIn .5s ease both; }
@@ -1100,8 +1105,8 @@ html.game-page #root { position: fixed; inset: 0; }
 .mon-area .n { font-family: "M PLUS Rounded 1c", sans-serif; font-weight: 800; font-size: 1.25em; font-variant-numeric: tabular-nums; }
 .mon-area .paused { color: #B4472F; font-size: .8em; }
 .mon-note { font-size: .7em; color: var(--muted); font-weight: 500; line-height: 1.5; }
-.mon-join { display: grid; grid-template-columns: 7.5em 1fr; gap: .9em; align-items: center; background: #E2F1EC; border-radius: 1em; padding: .8em; }
-.mon-join .qr { background: #fff; border-radius: .6em; padding: .4em; }
+.mon-join { display: grid; grid-template-columns: 10.5em 1fr; gap: .9em; align-items: center; background: #E2F1EC; border-radius: 1em; padding: .8em; }
+.mon-join .qr { background: #fff; border-radius: .6em; padding: .5em; }
 .mon-join .qr svg { width: 100%; height: auto; display: block; }
 .mon-join b { font-size: 1.05em; display: block; }
 .mon-join span { font-size: .8em; color: #174F47; }
@@ -1241,11 +1246,11 @@ html.monitor-page #root { width: 100vw; height: 100vh; }
 }
 
 /* 期間・育ちの記録・かくれた場所（1.2） */
-.mon-growth { display: grid; gap: .5em; }
-.mon-growth h2 { display: flex; align-items: baseline; gap: .6em; }
-.mon-growth h2 small { font-size: .7em; font-weight: 700; color: #557080; }
+.mon-growth { display: grid; gap: .45em; }
+.mon-growth h2 { display: flex; flex-wrap: wrap; align-items: baseline; gap: 0 .6em; margin-bottom: .2em; }
+.mon-growth h2 small { font-size: .7em; font-weight: 700; color: #557080; flex-basis: 100%; }
 .mon-growth .mg-open { margin: 0; font-size: .95em; font-weight: 800; color: #B4472F; }
-.mg-bars { display: flex; align-items: flex-end; gap: .25em; height: 3.2em; padding: .3em .2em 0; border-bottom: .12em solid #E6DCCB; }
+.mg-bars { display: flex; align-items: flex-end; gap: .25em; height: 2.4em; padding: .3em .2em 0; border-bottom: .12em solid #E6DCCB; }
 .mg-bars i { flex: 1; display: block; background: linear-gradient(#9ACB6E, #6EA259); border-radius: .25em .25em 0 0; min-width: .4em; }
 .mg-hidden { display: grid; grid-template-columns: 2.2em 1fr; gap: .5em; align-items: center; font-size: .9em; }
 .mg-hidden .mg-q { width: 2.2em; height: 2.2em; border-radius: 50%; background: #F0EBFA; color: #6A55A8; font-weight: 900; display: grid; place-items: center; font-size: 1.1em; }
@@ -6547,7 +6552,7 @@ void main() {
     <aside class="mon-side">
       <${dA} boot=${l} store=${o} big=${r} />
       <${uA} boot=${l} now=${f} />
-      <section>
+      <section class="mon-feed-sec">
         <h2>いま街で起きていること</h2>
         <div class="mon-feed">
           ${pe.length?pe.map(ge=>{let[$e,xe]=cA(ge);return E`<div class="it" key=${`${ge.at}${ge.kind}${ge.exhibitId}`}><span class="ico"><${ui} name=${xe} /></span><span>${$e}</span><time>${Ms(ge.at,f)}</time></div>`}):E`<p class="mon-note" style="font-size:.9em">最初の発見を待っています。</p>`}
